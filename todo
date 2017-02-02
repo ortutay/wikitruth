@@ -1,0 +1,16 @@
+- view claim
+  - associated claims
+    - supporting
+    - supported
+  - associated users
+    - agreeing
+    - disagreeing
+- view user
+  - basic info
+  - claims agreed, disagreed
+- list all claims
+  - sort by tag?
+- create claim
+  - thesis, response body, agree/disagree
+  - tag?
+  - cite other claims, and external urls

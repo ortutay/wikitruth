@@ -1,11 +1,11 @@
 from django.shortcuts import render, redirect
 from django.views import View
 
-from forms import NewClaimForm
-from models import Claim
+from forms import NewClaimForm, ResponseForm
+from models import Claim, Response
 
 
-class ClaimsView(View):
+class NewClaimsView(View):
     def get(self, request):
         form = NewClaimForm()
         return render(request, 'claims/new.html', { 'form': form })
@@ -17,5 +17,35 @@ class ClaimsView(View):
             print 'not valid, errors:', form.errors
             return render(request, 'claims/new.html', { 'form': form })
         claim = Claim.objects.create(thesis=form.cleaned_data['thesis'])
-        print 'new claim:', claim
-        return redirect('new-claim')
+        response = Response.objects.create(
+            user=request.user,
+            claim=claim,
+            direction=form.cleaned_data['direction'],
+            body=form.cleaned_data['body'])
+        return redirect('claim-detail', id=claim.id)
+
+
+def claims(request):
+    claims = Claim.objects.all()
+    context = {
+        'claims': claims,
+    }
+    return render(request, 'claims/index.html', context)
+
+
+class ClaimDetail(View):
+    def get(self, request, id):
+        form = ResponseForm()
+        claim = Claim.objects.get(pk=id)
+        context = {
+            'claim': claim,
+            'form': form,
+            'responses': claim.response_set.all(),
+        }
+        return render(request, 'claims/detail.html', context)
+
+    def post(self, request, id):
+        form = ResponseForm(request.POST)
+        print 'POST form', form
+        claim = Claim.objects.get(pk=id)
+        return redirect('claim-detail', id=claim.id)

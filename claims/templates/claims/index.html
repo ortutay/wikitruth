@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Claims</h1>
+
+{% for claim in claims %}
+  <hr/>
+  {{ claim.id }} - {{ claim.thesis }} [<a href={% url 'claim-detail' id=claim.id %}>detail</a>]
+{% endfor %}
+
+
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Detail</h1>
+
+<p>Thesis: {{ claim.thesis }}</p>
+<p>Posted: {{ claim.timestamp }}</p>
+
+{% if user.is_authenticated %}
+  Posting response as {{ user.username }}
+  <form action="{% url 'claim-detail' id=claim.id %}" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Submit" />
+  </form>
+{% endif %}
+
+{% for response in responses %}
+  <hr/>
+  {{ response.body }}
+{% endfor %}
+
+{% endblock %}

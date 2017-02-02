@@ -6,7 +6,14 @@
 <form action="{% url 'new-claim' %}" method="post">
   {% csrf_token %}
   {{ form }}
-  <input type="submit" value="Submit" />
+
+  <div>
+    <p>Supporting claims</p>
+    <div id="claims"></div>
+    <button id="addClaim">Add</button>
+  </div>
+
+  <button type="submit">Submit</button>
 </form>
 
 {% endblock %}
