@@ -9873,6 +9873,39 @@ var Claims = function (_React$Component) {
         for (var _iterator4 = this.state.suggestions[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
           var _claim2 = _step4.value;
 
+          var found = false;
+          var _iteratorNormalCompletion5 = true;
+          var _didIteratorError5 = false;
+          var _iteratorError5 = undefined;
+
+          try {
+            for (var _iterator5 = this.state.claims[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
+              var existing = _step5.value;
+
+              if (_claim2.id == existing.id) {
+                found = true;
+                break;
+              }
+            }
+          } catch (err) {
+            _didIteratorError5 = true;
+            _iteratorError5 = err;
+          } finally {
+            try {
+              if (!_iteratorNormalCompletion5 && _iterator5.return) {
+                _iterator5.return();
+              }
+            } finally {
+              if (_didIteratorError5) {
+                throw _iteratorError5;
+              }
+            }
+          }
+
+          if (found) {
+            continue;
+          }
+
           options.push(_react2.default.createElement(
             'option',
             { key: _claim2.id, value: _claim2.id },

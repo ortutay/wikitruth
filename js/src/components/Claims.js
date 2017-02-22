@@ -74,6 +74,17 @@ export default class Claims extends React.Component {
   renderForm() {
     let options = [];
     for (let claim of this.state.suggestions) {
+      let found = false;
+      for (let existing of this.state.claims) {
+        if (claim.id == existing.id) {
+          found = true;
+          break;
+        }
+      }
+      if (found) {
+        continue;
+      }
+
       options.push(
         <option key={claim.id} value={claim.id}>
           {claim.id} - {claim.thesis}
