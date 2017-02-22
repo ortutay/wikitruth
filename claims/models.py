@@ -20,6 +20,7 @@ class Response(models.Model):
     claim = models.ForeignKey(Claim)
     direction = models.CharField(max_length=20, choices=DIRECTION_CHOICES)
     body = models.TextField()
+    citations = models.ManyToManyField(Claim, related_name='cited_by')
     # citations = models.ManyToManyField(
     #     Claim,
     #     through='Citation',

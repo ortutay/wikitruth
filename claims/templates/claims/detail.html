@@ -18,6 +18,13 @@
 {% for response in responses %}
   <hr/>
   {{ response.body }}
+  <br/>
+  <b>Cited:</b>
+  <ul>
+    {% for cited_claim in response.citations.all %}
+      <li>{{ cited_claim }} - [<a href="{% url 'claim-detail' id=cited_claim.id %}">view</a>]</li>
+    {% endfor %}
+  </ul>
 {% endfor %}
 
 {% endblock %}
