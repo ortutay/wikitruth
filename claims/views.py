@@ -22,22 +22,10 @@ class NewClaimsView(View):
 
     def post(self, request):
         form = NewClaimForm(request.POST)
-
         if not form.is_valid():
-            print 'not valid, errors:', form.errors
             return render(request, 'claims/new.html', { 'form': form })
-
         claim = Claim.objects.create(thesis=form.cleaned_data['thesis'])
-        response = Response.objects.create(
-            user=request.user,
-            claim=claim,
-            direction=form.cleaned_data['direction'],
-            body=form.cleaned_data['body'])
-        for claim_id in form.cleaned_data['citations']:
-            cited_claim = Claim.objects.get(pk=claim_id)
-            response.citations.add(cited_claim)
-        response.save()
-
+        add_response_to_claim(request, claim, form.cleaned_data)
         return redirect('claim-detail', id=claim.id)
 
 
@@ -62,8 +50,12 @@ class ClaimDetail(View):
 
     def post(self, request, id):
         form = ResponseForm(request.POST)
-        print 'POST form', form
+        if not form.is_valid():
+            return render(request, 'claims/detail.html', { 'form': form })
+
         claim = Claim.objects.get(pk=id)
+        add_response_to_claim(request, claim, form.cleaned_data)
+
         return redirect('claim-detail', id=claim.id)
 
 
@@ -73,3 +65,14 @@ def search(request):
     serializer = ClaimSerializer(claims, many=True)
     return ApiResponse({ 'results': serializer.data })
 
+
+def add_response_to_claim(request, claim, cleaned_data):
+    response = Response.objects.create(
+        user=request.user,
+        claim=claim,
+        direction=cleaned_data['direction'],
+        body=cleaned_data['body'])
+    for claim_id in cleaned_data['citations']:
+        cited_claim = Claim.objects.get(pk=claim_id)
+        response.citations.add(cited_claim)
+    response.save()

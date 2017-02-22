@@ -11,6 +11,7 @@
   <form action="{% url 'claim-detail' id=claim.id %}" method="post">
     {% csrf_token %}
     {{ form }}
+    <div id="claims"></div>
     <input type="submit" value="Submit" />
   </form>
 {% endif %}
