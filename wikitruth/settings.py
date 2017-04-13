@@ -114,3 +114,9 @@ STATICFILES_DIRS = (
 REST_FRAMEWORK = {
     'PAGE_SIZE': 500,
 }
+
+API_HOST = os.environ.get('API_HOST', 'localhost:8000')
+
+SETTINGS_EXPORT = [
+    'API_HOST',
+]
