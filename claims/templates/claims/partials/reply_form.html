@@ -1,0 +1,6 @@
+<form action="{% url 'response-detail' id=response.id %}" method="post">
+  {% csrf_token %}
+  <input type="hidden" name="response_id" value="{{ response.id }}" />
+  {{ form.body }}
+  <button type="submit">Reply</button>
+</form>

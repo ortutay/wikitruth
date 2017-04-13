@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Response Detail</h1>
+
+<a href="{% url 'claim-detail' id=response.claim_id %}">&laquo; Back to "{{ response.claim.thesis }}"</a><br/>
+
+{{ response.body }}
+
+{% include 'claims/partials/reply_form.html' %}
+
+{% endblock %}
