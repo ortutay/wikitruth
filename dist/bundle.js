@@ -9978,12 +9978,13 @@ module.exports = __webpack_require__(128);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function(process) {
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var API_HOST = exports.API_HOST = 'http://localhost:8000';
+var API_HOST = exports.API_HOST = process.env.REACT_APP_API_HOST || 'http://localhost:8000';
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
 /* 89 */
