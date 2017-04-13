@@ -8,7 +8,7 @@ from rest_framework.decorators import api_view
 from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response as ApiResponse
 
-from forms import NewClaimForm, ResponseForm
+from forms import NewClaimForm, ResponseForm, ReplyForm
 from models import Claim, Response
 from serializers import ClaimSerializer
 
@@ -40,10 +40,12 @@ def claims(request):
 class ClaimDetail(View):
     def get(self, request, id):
         form = ResponseForm()
+        reply_form = ReplyForm()
         claim = Claim.objects.get(pk=id)
         context = {
             'claim': claim,
             'form': form,
+            'reply_form': reply_form,
             'responses': claim.response_set.all(),
         }
         return render(request, 'claims/detail.html', context)
@@ -57,6 +59,44 @@ class ClaimDetail(View):
         add_response_to_claim(request, claim, form.cleaned_data)
 
         return redirect('claim-detail', id=claim.id)
+
+
+class ResponseDetail(View):
+    def get(self, request, id):
+        form = ReplyForm()
+        response = Response.objects.get(pk=id)
+        context = {
+            'form': form,
+            'response': response,
+        }
+        return render(request, 'claims/responses/detail.html', context)
+
+    def post(self, request, id):
+        form = ReplyForm(request.POST)
+        response = Response.objects.get(pk=id)
+        if not form.is_valid():
+            print 'errors', form.errors
+            context = {
+                'form': form,
+                'response': response,
+            }
+            return render(request, 'claims/responses/detail.html', context)
+
+        parent = None
+        if form.cleaned_data['comment_id']:
+            parent = Comment.objects.get(pk=form.cleaned_data['comment_id'])
+
+        print 'trying to make...'
+
+        Comment.objects.create(
+            user=request.user,
+            response=response,
+            parent=parent,
+            body=form.cleaned_data['body'])
+
+        print 'made comment, redirecting'
+
+        return redirect('response-detail', id=response.id)
 
 
 @api_view(['GET'])

@@ -23,6 +23,16 @@ class ResponseForm(forms.Form):
         self.cleaned_data['citations'] = clean_citations(self.data.getlist('citations'))
 
 
+class ReplyForm(forms.Form):
+    response_id = forms.IntegerField(required=True)
+    comment_id = forms.IntegerField()
+    body = forms.CharField(widget=forms.Textarea, max_length=10000, required=True)
+
+    # def clean(self):
+    #     super(ResponseForm, self).clean()
+    #     self.cleaned_data['citations'] = clean_citations(self.data.getlist('citations'))
+
+
 # TODO(ortutay): I think this is possible to do via CitationField(forms.Field)?
 def clean_citations(citations):
     for claim_id in citations:

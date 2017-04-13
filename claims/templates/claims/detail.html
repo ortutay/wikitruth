@@ -18,6 +18,8 @@
 
 {% for response in responses %}
   <hr/>
+  [<a href="{% url 'response-detail' id=response.id %}">permalink</a>]
+  [{{ response.direction }}] -
   {{ response.body }}
   <br/>
   <b>Cited:</b>
@@ -26,6 +28,7 @@
       <li>{{ cited_claim }} - [<a href="{% url 'claim-detail' id=cited_claim.id %}">view</a>]</li>
     {% endfor %}
   </ul>
+  {% include 'claims/partials/reply_form.html' with form=reply_form %}
 {% endfor %}
 
 {% endblock %}

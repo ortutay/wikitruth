@@ -17,17 +17,16 @@ class Claim(models.Model):
 
 class Response(models.Model):
     user = models.ForeignKey(User)
+    timestamp = models.DateTimeField(auto_now_add=True)
     claim = models.ForeignKey(Claim)
     direction = models.CharField(max_length=20, choices=DIRECTION_CHOICES)
     body = models.TextField()
     citations = models.ManyToManyField(Claim, related_name='cited_by')
-    # citations = models.ManyToManyField(
-    #     Claim,
-    #     through='Citation',
-    #     through_fields=('response', 'claim'))
+
+
+class Comment(models.Model):
+    user = models.ForeignKey(User)
     timestamp = models.DateTimeField(auto_now_add=True)
-
-
-# class Citation(models.Model):
-#     response = models.ForeignKey(Response, on_delete=models.CASCADE)
-#     claim = models.ForeignKey(Claim, on_delete=models.CASCADE)
+    response = models.ForeignKey(Response)
+    parent = models.ForeignKey('Comment', null=True)
+    body = models.TextField()
