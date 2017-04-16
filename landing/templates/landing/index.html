@@ -1,4 +1,12 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
+<h1>Wikitruth</h1>
+<p>Wikitruth is new way to manage online debates. It centers around <b>claims</b>, which are supported by a number of <b>citations</b>. You can read claims, see the supporting citations, and decide if you agree with them. You can also write new claims, and add the supporting citations.</p>
+
+<p>
+  <a href="{% url 'claims' %}" class="btn btn-primary">See Claims</a>
+</p>
+
 {% endblock %}
