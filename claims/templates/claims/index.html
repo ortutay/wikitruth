@@ -5,7 +5,7 @@
 
 {% for claim in claims %}
   <hr/>
-  {{ claim.id }} - {{ claim.thesis }} [<a href={% url 'claim-detail' id=claim.id %}>detail</a>]
+  <a href={% url 'claim-detail' id=claim.id %}>{{ claim.thesis }}</a>
 {% endfor %}
 
 

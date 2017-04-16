@@ -1,10 +1,8 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Detail</h1>
-
-<p>Thesis: {{ claim.thesis }}</p>
-<p>Posted: {{ claim.timestamp }}</p>
+<h1>{{ claim.thesis }}</h1>
+<p>{{ claim.timestamp }}</p>
 
 {% if user.is_authenticated %}
   Posting response as {{ user.username }}
@@ -14,6 +12,8 @@
     <div id="claims"></div>
     <input type="submit" value="Submit" />
   </form>
+{% else %}
+  <div class="sign-in-to-post">Sign in to post a reply and agree/disagree.</div>
 {% endif %}
 
 {% for response in responses %}
